@@ -39,26 +39,7 @@ import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
 import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
-import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
-import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
-import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
-import net.milkbowl.vault.economy.plugins.Economy_DigiCoin;
-import net.milkbowl.vault.economy.plugins.Economy_Dosh;
-import net.milkbowl.vault.economy.plugins.Economy_EconXP;
-import net.milkbowl.vault.economy.plugins.Economy_Essentials;
-import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney2;
-import net.milkbowl.vault.economy.plugins.Economy_GoldenChestEconomy;
-import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
-import net.milkbowl.vault.economy.plugins.Economy_McMoney;
-import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
-import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
-import net.milkbowl.vault.economy.plugins.Economy_TAEcon;
-import net.milkbowl.vault.economy.plugins.Economy_XPBank;
-import net.milkbowl.vault.economy.plugins.Economy_eWallet;
-import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
-import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
-import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;  
+import net.milkbowl.vault.economy.plugins.*;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
@@ -100,7 +81,6 @@ import org.json.simple.JSONValue;
 import com.nijikokun.register.payment.Methods;
 
 import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
-import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
 public class Vault extends JavaPlugin {
 
@@ -302,6 +282,9 @@ public class Vault extends JavaPlugin {
         // Try to load TAEcon
         hookEconomy("TAEcon", Economy_TAEcon.class, ServicePriority.Normal, "net.teamalpha.taecon.TAEcon");
 
+        // Try to load GlobalEconomy
+        hookEconomy("Global", Economy_Global.class, ServicePriority.Normal, "net.plussycraft.global.Global");
+
         // Try to load DigiCoin
         hookEconomy("DigiCoin", Economy_DigiCoin.class, ServicePriority.Normal, "co.uk.silvania.cities.digicoin.DigiCoin");
     }
@@ -457,16 +440,16 @@ public class Vault extends JavaPlugin {
 
         sender.sendMessage("This may take some time to convert, expect server lag.");
         for (OfflinePlayer op : Bukkit.getServer().getOfflinePlayers()) {
-            if (econ1.hasAccount(op)) {
-                if (econ2.hasAccount(op)) {
+            if (econ1.hasAccount(op.getName())) {
+                if (econ2.hasAccount(op.getName())) {
                     continue;
                 }
-                econ2.createPlayerAccount(op);
-                double diff = econ1.getBalance(op) - econ2.getBalance(op);
+                econ2.createPlayerAccount(op.getName());
+                double diff = econ1.getBalance(op.getName()) - econ2.getBalance(op.getName());
                 if (diff > 0) {
-                	econ2.depositPlayer(op, diff);
+                	econ2.depositPlayer(op.getName(), diff);
                 } else if (diff < 0) {
-                	econ2.withdrawPlayer(op, -diff);
+                	econ2.withdrawPlayer(op.getName(), -diff);
                 }
                 
             }

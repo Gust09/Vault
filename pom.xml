@@ -412,6 +412,20 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/overpermissions-2.0.0.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>net.milkbowl.vault</groupId>
+			<artifactId>VaultAPI</artifactId>
+			<version>1.6</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/VaultAPI-1.6.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.plussycraft.global</groupId>
+			<artifactId>Global</artifactId>
+			<version>1.6</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/Global.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -444,6 +458,8 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 					<artifactSet>
 						<includes>
 							<include>net.milkbowl.vault:VaultAPI</include>
+							<include>VaultAPI</include>
+							<include>net/milkbowl/vault/**</include>
 						</includes>
 					</artifactSet>
 				</configuration>

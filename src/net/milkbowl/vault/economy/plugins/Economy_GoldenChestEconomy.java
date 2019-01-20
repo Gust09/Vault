@@ -34,7 +34,7 @@ import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 public class Economy_GoldenChestEconomy extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
     
-    private final String name = "GoldenChestEconomy";
+    private final String name = "Global";
     private Plugin plugin = null;
     private GoldenChestEconomy economy = null;
     
@@ -44,8 +44,8 @@ public class Economy_GoldenChestEconomy extends AbstractEconomy {
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
         // Load Plugin in case it was loaded before
         if (economy == null) {
-            Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldenChestEconomy");
-            if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("me.igwb.GoldenChest.GoldenChestEconomy")) {
+            Plugin ec = plugin.getServer().getPluginManager().getPlugin("Global");
+            if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("net.plussycraft.global.Global")) {
                 economy = (GoldenChestEconomy) ec;
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
             }
@@ -64,7 +64,7 @@ public class Economy_GoldenChestEconomy extends AbstractEconomy {
             if (economy.economy == null) {
                 Plugin ec = event.getPlugin();
     
-                if (ec.getDescription().getName().equals("GoldenChestEconomy") && ec.getClass().getName().equals("me.igwb.GoldenChest.GoldenChestEconomy")) {
+                if (ec.getDescription().getName().equals("Global") && ec.getClass().getName().equals("net.plussycraft.global.Global")) {
                     economy.economy = (GoldenChestEconomy) ec;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }
@@ -74,7 +74,7 @@ public class Economy_GoldenChestEconomy extends AbstractEconomy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals("GoldenChestEconomy")) {
+                if (event.getPlugin().getDescription().getName().equals("Global")) {
                     economy.economy = null;
                     log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
                 }
