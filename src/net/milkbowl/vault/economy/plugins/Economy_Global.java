@@ -124,56 +124,44 @@ public class Economy_Global extends AbstractEconomy {
 
     @Override
     public boolean hasAccount(String playerName) {
-        return economy.getPlayerManager().get(Bukkit.getOfflinePlayer(playerName)) != null;
+        return economy.getEconomyHook().hasAccount(playerName);
     }
 
     @Override
     public double getBalance(String playerName) {
-        return economy.getPlayerManager().getCached(playerName).getCoins();
+        return economy.getEconomyHook().getBalance(playerName);
     }
 
     @Override
     public boolean has(String playerName, double amount) {
-        return getBalance(playerName) >= amount;
+        return economy.getEconomyHook().has(playerName, amount);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
         EconomyResponse.ResponseType rt;
         String message;
-        int iamount = (int) Math.floor(amount);
 
-        if (has(playerName, iamount)) {
-            if (economy.getPlayerManager().getCached(playerName).removeCoins(iamount, "VAULT WITHDRAW")) {
-                rt = EconomyResponse.ResponseType.SUCCESS;
-                message = null;
-            } else {
-                rt = EconomyResponse.ResponseType.SUCCESS;
-                message = "ERROR";
-            }
+        if (has(playerName, amount)) {
+            economy.getEconomyHook().withdrawPlayer(playerName, amount);
+            rt = EconomyResponse.ResponseType.SUCCESS;
+            message = "Success";
         } else {
             rt = EconomyResponse.ResponseType.FAILURE;
             message = "Not enough money";
         }
 
-        return new EconomyResponse(iamount, getBalance(playerName), rt, message);
+        return new EconomyResponse(amount, getBalance(playerName), rt, message);
     }
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
         EconomyResponse.ResponseType rt;
         String message;
-        int iamount = (int) Math.floor(amount);
-
-        if (economy.getPlayerManager().getCached(playerName).addCoins(iamount, "VAULT DEPOSIT")) {
-            rt = EconomyResponse.ResponseType.SUCCESS;
-            message = null;
-        } else {
-            rt = EconomyResponse.ResponseType.SUCCESS;
-            message = "ERROR";
-        }
-
-        return new EconomyResponse(iamount, getBalance(playerName), rt, message);
+        economy.getEconomyHook().depositPlayer(playerName, amount);
+        rt = EconomyResponse.ResponseType.SUCCESS;
+        message = "Success";
+        return new EconomyResponse(amount, getBalance(playerName), rt, message);
     }
 
     @Override

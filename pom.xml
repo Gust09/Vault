@@ -422,7 +422,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>net.plussycraft.global</groupId>
 			<artifactId>Global</artifactId>
-			<version>1.6</version>
+			<version>LATEST</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Global.jar</systemPath>
 		</dependency>
